@@ -1,0 +1,87 @@
+#page-landing{
+    background: linear-gradient(212deg, #f3efee 0%, #0a282b 100%);
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#page-landing .content-wrapper{
+    position: relative;
+
+    width: 100%;
+    max-width: 1100px;
+    padding: 20px;
+
+    height: 100%;
+    max-height: 680px;
+
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border-radius: 20px;
+
+    background: url('../../../images/capa.jpg') no-repeat  90% center;
+}
+
+#page-landing .content-wrapper img{
+    width: 100px;
+    height: 80px;
+    padding-bottom: 25px;
+}
+
+#page-landing .content-wrapper main{
+    max-width: 350px;
+}
+
+#page-landing .content-wrapper main p{
+    margin-top: 40px;
+    font-size: 24px;
+    line-height: 34px;
+}
+
+.content-wrapper .location{
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    font-size: 44 !important;
+    line-height: 34px;
+
+    display: flex;
+    flex-direction: column;
+
+    text-align: right;
+    margin-right: 5px;
+
+    color:  #08363a;
+}
+
+.content-wrapper .location strong{
+    font-weight: 800;
+}
+
+.content-wrapper .enter{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    width: 80px;
+    height: 80px;
+    background-color:  #08363a;
+    border-radius: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color 0.2s;
+}
+
+.content-wrapper .enter:hover{
+    background-color: #006668;
+}
