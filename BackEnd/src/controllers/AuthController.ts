@@ -21,7 +21,7 @@ export default{
                     const senhaCrypto = bcrypt.compareSync(senha, data.password);
                     if(senhaCrypto){
                         let token = jwt.sign({id: data.id}, config.secret , {
-                            expiresIn: 3600
+                            expiresIn: 360
                         });
                         res.status(200).json({accesstoken: token});
                     }else{

@@ -115,7 +115,7 @@ export default{
         .where("id = :id", { id: req.params.id })
         .execute()
         .then(() => {
-            return res.status(200);
+            return res.status(200).send("Alterado com sucesso!");
         })
         .catch(error => {
             console.log("Erro: ", error);

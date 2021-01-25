@@ -184,7 +184,7 @@ export default function CreateArea() {
             </div>
 
             <div className="input-block">
-              <label htmlFor="contact">Contato</label>
+              <label htmlFor="contact">Contato <span>Somente números</span></label>
               <input id="contact" type="text" value={contact} onChange={event => setContact(event.target.value)}/>
             </div>
 

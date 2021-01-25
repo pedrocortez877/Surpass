@@ -12,6 +12,7 @@ api.interceptors.request.use(function (config) {
   if (authToken) {
     config.headers[REMEMBER_PARAM] = authToken;
   }
+  
   return config
 }, function (error) {
   return Promise.reject(error)
@@ -19,7 +20,6 @@ api.interceptors.request.use(function (config) {
 
 api.interceptors.response.use(function (response) {
   const token = response.data.accesstoken;
-  console.log(token);
   if (token) {
     window.localStorage.setItem('myToken', token)
   }

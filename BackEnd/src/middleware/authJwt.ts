@@ -18,9 +18,9 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
       return res.status(401).send({
         message: "Unauthorized!"
       });
+    }else{
+      next();
     }
-  
-    next();
   });
 };
 
