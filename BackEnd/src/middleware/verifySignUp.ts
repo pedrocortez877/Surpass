@@ -16,6 +16,8 @@ const checkDuplicateEmail = async (req: Request, res: Response, next: NextFuncti
       return;
     }
   });
+
+  next();
 };
 
  const verifySignUp = {

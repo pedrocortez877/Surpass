@@ -30,10 +30,11 @@ export default function Register() {
     }
 
     if(validate()){
+      console.log("to aqui");
       await api.post('users', data).then(() => {
         alert('cadastro realizado!!!');
 
-        history.push('/app');
+        history.push('/login');
       }).catch(() => {
         setWarningForm("Já possuímos um cadastro com este endereço de e-mail");
       });

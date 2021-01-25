@@ -71,8 +71,6 @@ export default function CreateArea() {
       data.append('images', image)
     });
 
-    console.log(data.getAll);
-
     if(validate()){
       await api.post('areas', data).then(() => {
         history.push('/app');

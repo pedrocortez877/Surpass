@@ -41,6 +41,7 @@ export default function Area() {
     useEffect(() => {
         api.get(`areas/${params.id}`).then(response => {
             setArea(response.data);
+            console.log(params.id);
         })
     }, [params.id]);
 
@@ -83,7 +84,6 @@ export default function Area() {
 
       confirmAlert(options);
     }
-
 
   return (
     <div id="page-area">
