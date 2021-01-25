@@ -35,7 +35,7 @@ function PageMap() {
                 <header>
                     <img src={logoMap} alt="Surpass"/>
 
-                    <h2>Escolha uma area de esportes no mapa</h2>
+                    <h2>Encontre uma area de esportes no mapa</h2>
 
                     <p>Agora sem desculpas... Levanta da cama e bora!!!</p>
                 </header>
