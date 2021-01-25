@@ -119,7 +119,7 @@ export default{
         })
         .catch(error => {
             console.log("Erro: ", error);
-            return res.status(500);
+            return res.status(500).send({erro: error});
         });;
     }
 }
