@@ -29,13 +29,13 @@ export default function UpdateArea() {
     const params = useParams<AreaParams>();
     const [area, setArea] = useState<Area>();
 
-    const [isUpdated, setIsUpdated] = useState(false);
+    const [isUpdated, setIsUpdated] = useState(true);
 
     const[about, setAbout] = useState('');
     const[instructions, setInstructions] = useState('');
     const[position, setPosition] = useState({latitude: 0, longitude: 0});
     const[name, setName] = useState('');
-    const[open_on_weekends, setOpenOnWeekends] = useState(true);
+    const[open_on_weekends, setOpenOnWeekends] = useState(false);
     const[opening_hours, setOpeningHours] = useState('');
 
     useEffect(() => {
@@ -88,7 +88,7 @@ export default function UpdateArea() {
           label: 'Yes',
           onClick: async () => {
             await api.put(`areas/${params.id}`, data).then(() => {
-              setIsUpdated(true);
+              alert("Sucesso em alterar!");
             }).catch(err => {
               console.log("Erro: ", err);
               setIsUpdated(false);
@@ -98,7 +98,7 @@ export default function UpdateArea() {
         },
         {
           label: 'No',
-          onClick: () => {}
+          onClick: () => { setIsUpdated(false) }
         }
       ],
       childrenElement: () => <div />,
