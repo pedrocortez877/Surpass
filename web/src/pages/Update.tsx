@@ -80,7 +80,7 @@ export default function UpdateArea() {
 
     const options = {
       title: 'Confirme sua ação',
-      message: 'Tem certeza de suas alterações?',
+      message: 'Tem certeza que deseja alterar essa area?',
       buttons: [
         {
           label: 'Yes',
@@ -93,7 +93,6 @@ export default function UpdateArea() {
               history.push('/login');
             });
           }
-          
         },
         {
           label: 'No',
@@ -104,7 +103,7 @@ export default function UpdateArea() {
       closeOnEscape: true,
       closeOnClickOutside: true,
       willUnmount: () => {},
-      afterClose: () => {},
+      afterClose: () => { document.location.reload(); },
       onClickOutside: () => {},
       onKeypressEscape: () => {}
     };
