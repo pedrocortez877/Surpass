@@ -37,7 +37,6 @@ export default function Area() {
   const params = useParams<AreaParams>();
   const [area, setArea] = useState<Area>();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [isExcluded, setIsExcluded] = useState(true);
 
     useEffect(() => {
         api.get(`areas/${params.id}`).then(response => {
@@ -58,11 +57,13 @@ export default function Area() {
             label: 'Yes',
             onClick: async () => {
               await api.delete(`areas/${params.id}`).then(() => {
-                setIsExcluded(true);
+                console.log("Excluido com sucesso!");
               }).catch(err => {
-                setIsExcluded(false);
+                alert("Faça o login!");
                 history.push('/login');
               });
+              history.push('/app');
+              document.location.reload();
             }
             
           },
@@ -75,9 +76,7 @@ export default function Area() {
         closeOnEscape: true,
         closeOnClickOutside: true,
         willUnmount: () => {},
-        afterClose: () => {
-          if(isExcluded){history.push('/app')}
-        },
+        afterClose: () => {},
         onClickOutside: () => {},
         onKeypressEscape: () => {}
       };

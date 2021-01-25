@@ -86,10 +86,10 @@ export default function UpdateArea() {
           label: 'Yes',
           onClick: async () => {
             await api.put(`areas/${params.id}`, data).then(() => {
-              alert("Alterado com sucesso!!!");
+              console.log("Alterado com sucesso!");
             }).catch(err => {
-              alert("Faça a autenticação!");
-
+              console.log("Erro: ", err);
+              alert("Faça o login!");
               history.push('/login');
             });
           }
@@ -104,11 +104,7 @@ export default function UpdateArea() {
       closeOnEscape: true,
       closeOnClickOutside: true,
       willUnmount: () => {},
-      afterClose: () => {
-        history.push('/app');
-
-        document.location.reload();
-      },
+      afterClose: () => {},
       onClickOutside: () => {},
       onKeypressEscape: () => {}
     };

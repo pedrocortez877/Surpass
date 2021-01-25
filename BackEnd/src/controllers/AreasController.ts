@@ -4,12 +4,6 @@ import Area from  '../models/Area'
 import areasView from '../views/areasView';
 import * as Yup from 'yup'
 
-import authJwt from '../middleware/authJwt';
-import IGetUserAuthInfoRequest from '../config/definitionFile';
-
-import * as dotenv from 'dotenv'
-dotenv.config({path: __dirname+'../../.env'});
-
 export default{
     async index(req: Request, res: Response){
         const areasRepository = getRepository(Area);
@@ -63,8 +57,6 @@ export default{
             open_on_weekends : open_on_weekends === 'true',
             images
         };
-
-        console.log(data);
 
         const schema = Yup.object().shape({
             name:  Yup.string().required(),
@@ -123,10 +115,11 @@ export default{
         .where("id = :id", { id: req.params.id })
         .execute()
         .then(() => {
-            return res.status(201);
+            return res.status(200);
         })
         .catch(error => {
             console.log("Erro: ", error);
+            return res.status(500);
         });;
     }
 }
