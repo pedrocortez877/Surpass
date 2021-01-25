@@ -29,8 +29,6 @@ export default function UpdateArea() {
     const params = useParams<AreaParams>();
     const [area, setArea] = useState<Area>();
 
-    const [isUpdated, setIsUpdated] = useState(true);
-
     const[about, setAbout] = useState('');
     const[instructions, setInstructions] = useState('');
     const[position, setPosition] = useState({latitude: 0, longitude: 0});
@@ -91,26 +89,20 @@ export default function UpdateArea() {
               alert("Sucesso em alterar!");
             }).catch(err => {
               console.log("Erro: ", err);
-              setIsUpdated(false);
               history.push('/login');
             });
           }
         },
         {
           label: 'No',
-          onClick: () => { setIsUpdated(false) }
+          onClick: () => {}
         }
       ],
       childrenElement: () => <div />,
       closeOnEscape: true,
       closeOnClickOutside: true,
       willUnmount: () => {},
-      afterClose: () => {
-        if(isUpdated){
-          history.push('/app');
-          document.location.reload();
-        }
-      },
+      afterClose: () => {},
       onClickOutside: () => {},
       onKeypressEscape: () => {}
     };
