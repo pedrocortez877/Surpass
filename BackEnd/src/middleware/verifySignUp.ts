@@ -14,10 +14,11 @@ const checkDuplicateEmail = async (req: Request, res: Response, next: NextFuncti
         message: "Failed! Email is already in use!"
       });
       return;
+    }else{
+      next();
     }
   });
 
-  next();
 };
 
  const verifySignUp = {

@@ -24,8 +24,6 @@ export default{
     
         const usersRepository = getRepository(Users);
 
-        console.log("cheguei aqui");
-
         //gerando hash com a senha
         const password = bcrypt.hashSync(request.body.password, 8);
     
@@ -45,17 +43,10 @@ export default{
             abortEarly: false,
         });      
 
-        console.log(data);
-
         const user = usersRepository.create(data);
     
-        await usersRepository.save(user).then(() => {
-            return response.status(201).json(user);
-        }).catch((err => {
-            console.log("Error: ", err);
-            return response.status(500).send("Internal Server Error");
-        }));
-    
-        
+        await usersRepository.save(user);
+            
+        return response.status(201).json(user);
     }
 }
