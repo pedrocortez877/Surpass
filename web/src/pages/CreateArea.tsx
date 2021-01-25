@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { useHistory } from "react-router-dom";
 import { LeafletMouseEvent } from 'leaflet' 
@@ -10,13 +10,21 @@ import Sidebar from "../components/Sidebar";
 import MapIcon from "../utils/mapIcon";
 import api from "../services/api";
 
-
-
 export default function CreateArea() {
   const history = useHistory();
   const[position, setPosition] = useState({latitude: 0, longitude: 0})
 
+  const[warningFormName, setWarningFormName] = useState('');
+  const[warningFormMap, setWarningFormMap] = useState('');
+  const[warningFormAbout, setWarningFormAbout] = useState('');
+  const[warningFormInstructions, setWarningFormInstructions] = useState('');
+  const[warningFormImages, setWarningFormImages] = useState('');
+  const[warningFormOpeningHours, setWarningFormOpeningHours] = useState('');
+  const[warningFormContact, setWarningFormContact] = useState('');
+
+
   const[name, setName] = useState('');
+  const[contact, setContact] = useState('');
   const[about, setAbout] = useState('');
   const[instructions, setInstructions] = useState('');
   const[opening_hours, setOpeningHours] = useState('');
@@ -33,6 +41,16 @@ export default function CreateArea() {
     });
   }
 
+  const handleSelectImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return
+
+    const selectedImages = Array.from(e.target.files)
+    setImages(images => [...images, ...selectedImages])
+
+    const selectedImagesPreview = selectedImages.map(image => URL.createObjectURL(image))
+    setPreviewImages(previews => [...previews, ...selectedImagesPreview])
+  }
+ 
   async function  handleSubmit(event: FormEvent){
     event.preventDefault();
 
@@ -41,6 +59,7 @@ export default function CreateArea() {
     const data = new FormData();
 
     data.append('name', name);
+    data.append('contact', contact);
     data.append('about', about);
     data.append('latitude', String(latitude));
     data.append('longitude', String(longitude));
@@ -52,29 +71,75 @@ export default function CreateArea() {
       data.append('images', image)
     });
 
-    await api.post('areas', data);
+    console.log(data.getAll);
 
-    alert('cadastro realizado!!!');
-
-    history.push('/app');
-  }
-
-  function handleSelectImages (event: ChangeEvent<HTMLInputElement>){
-    if(!event.target.files){
-      return;
+    if(validate()){
+      await api.post('areas', data).then(() => {
+        history.push('/app');
+      }).catch(() => {
+        alert("Faça o login");
+        history.push('/login');
+      });
     }
 
-    const selectedImages = Array.from(event.target.files)
+    function validate(){
+      let isValid = true;
+      let regexp = /^[0-9\b]+$/;
+  
+      if(!opening_hours){
+        isValid = false;
+        setWarningFormOpeningHours("Informe o horario de funcionamento desta area");
+        document.getElementById("opening_hours")?.focus();
+      }
 
-    setImages(selectedImages);
+      if(!instructions){
+        isValid = false;
+        setWarningFormInstructions("Informe as intruções de visita");
+        document.getElementById("instructions")?.focus();
+      }
+  
 
-    const selectedImagesPreview = selectedImages.map(image => {
-      return URL.createObjectURL(image);
-    });
+      if(images.length === 0){
+        isValid = false;
+        setWarningFormImages("Insira pelo menos 1 foto");
+        document.getElementById("about")?.focus();
+      }
 
-    setPreviewImages(selectedImagesPreview);
+      if(!about){
+        isValid = false;
+        setWarningFormAbout("Escreva um pouco sobre esta area");
+        document.getElementById("about")?.focus();
+      }
+
+      if(!contact || contact.length < 11){
+        isValid = false;
+        setWarningFormContact("Informe um contato válido");
+        document.getElementById("contact")?.focus();
+      }
+
+      if(!regexp.test(contact)){
+        isValid = false;
+        setWarningFormContact("Somente números por favor!");
+        document.getElementById("contact")?.focus();
+      }
+              
+      if(!name){
+        isValid = false;
+        setWarningFormName("Informe um nome");
+        document.getElementById("name")?.focus();
+      }
+
+      if(!position.latitude  && !position.longitude){
+        isValid = false;
+        setWarningFormMap("Informe uma posição no mapa");
+        window.scrollTo(0,0);
+      }
+
+      return isValid;
+    }
+
+    
   }
-
 
   return (
     <div id="page-create-area">
@@ -107,14 +172,35 @@ export default function CreateArea() {
               {/*  */}
             </Map>
 
+            <div className="warning">
+              {warningFormMap}
+            </div>
+
             <div className="input-block">
               <label htmlFor="name">Nome</label>
               <input id="name" value={name} onChange={event => setName(event.target.value)}/>
             </div>
 
+            <div className="warning">
+              {warningFormName}
+            </div>
+
+            <div className="input-block">
+              <label htmlFor="contact">Contato</label>
+              <input id="contact" type="text" value={contact} onChange={event => setContact(event.target.value)}/>
+            </div>
+
+            <div className="warning">
+              {warningFormContact}
+            </div>
+
             <div className="input-block">
               <label htmlFor="about">Sobre <span>Máximo de 300 caracteres</span></label>
-              <textarea id="name" maxLength={300} value={about} onChange={event => setAbout(event.target.value)} />
+              <textarea id="about" maxLength={300} value={about} onChange={event => setAbout(event.target.value)} />
+            </div>
+
+            <div className="warning">
+              {warningFormAbout}
             </div>
 
             <div className="input-block">
@@ -132,8 +218,12 @@ export default function CreateArea() {
                 </label>
               </div>         
 
-              <input multiple onChange={handleSelectImages} type="file" id="image[]"/> 
+              <input type="file" id="image[]" multiple onChange={handleSelectImages} /> 
 
+            </div>
+
+            <div className="warning">
+              {warningFormImages}
             </div>
           </fieldset>
 
@@ -145,9 +235,17 @@ export default function CreateArea() {
               <textarea id="instructions" value={instructions} onChange={event => setInstructions(event.target.value)}/>
             </div>
 
+            <div className="warning">
+              {warningFormInstructions}
+            </div>
+
             <div className="input-block">
               <label htmlFor="opening_hours">Horário de funcionamento</label>
               <input id="opening_hours" value={opening_hours} onChange={event => setOpeningHours(event.target.value)}/>
+            </div>
+
+            <div className="warning">
+              {warningFormOpeningHours}
             </div>
 
             <div className="input-block">
@@ -158,6 +256,7 @@ export default function CreateArea() {
                 <button type="button" className={!open_on_weekends ? 'active' : ''} onClick={() => setOpenOnWeekends(false)}>Não</button>
               </div>
             </div>
+
           </fieldset>
 
           <button className="confirm-button" type="submit">

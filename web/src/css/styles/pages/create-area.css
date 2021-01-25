@@ -210,3 +210,11 @@ form.create-area-form button.confirm-button svg {
 form.create-area-form button.confirm-button:hover {
   background: #006668;
 }
+
+.warning{
+  text-align: left;
+  color: #fa5c5c;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}

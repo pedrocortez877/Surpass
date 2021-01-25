@@ -17,6 +17,7 @@ interface Area{
   latitude: number;
   longitude: number;
   name: string;
+  contact: string;
   about: string;
   instructions: string;
   opening_hours: string;
@@ -36,7 +37,7 @@ export default function Area() {
   const params = useParams<AreaParams>();
   const [area, setArea] = useState<Area>();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-
+  const [isExcluded, setIsExcluded] = useState(true);
 
     useEffect(() => {
         api.get(`areas/${params.id}`).then(response => {
@@ -57,13 +58,10 @@ export default function Area() {
             label: 'Yes',
             onClick: async () => {
               await api.delete(`areas/${params.id}`).then(() => {
-                alert("Removido com sucesso!");
-
-                history.push('/app');
-
-                document.location.reload();
+                setIsExcluded(true);
               }).catch(err => {
-                alert("Precisa estar logado!");
+                setIsExcluded(false);
+                history.push('/login');
               });
             }
             
@@ -78,7 +76,7 @@ export default function Area() {
         closeOnClickOutside: true,
         willUnmount: () => {},
         afterClose: () => {
-          
+          if(isExcluded){history.push('/app')}
         },
         onClickOutside: () => {},
         onKeypressEscape: () => {}
@@ -163,10 +161,10 @@ export default function Area() {
               ) }
             </div>
 
-            <button type="button" className="contact-button">
+            <a href={`https://wa.me/${area.contact}`} target="__blank" className="contact-button">
               <FaWhatsapp size={20} color="#FFF" />
               Entrar em contato
-            </button>
+            </a>
 
             <hr />
             

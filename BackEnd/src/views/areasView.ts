@@ -6,6 +6,7 @@ export default {
         return {
             id: area.id,
             name: area.name,
+            contact: area.contact,
             latitude: area.latitude,
             longitude: area.longitude,
             about: area.about,

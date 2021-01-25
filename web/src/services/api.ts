@@ -8,10 +8,9 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-  const authToken = window.localStorage.getItem(AUTH_TOKEN)
-  console.log(authToken);
+  const authToken = window.localStorage.getItem(AUTH_TOKEN);
   if (authToken) {
-    config.headers[REMEMBER_PARAM] = authToken
+    config.headers[REMEMBER_PARAM] = authToken;
   }
   return config
 }, function (error) {
@@ -19,9 +18,8 @@ api.interceptors.request.use(function (config) {
 });
 
 api.interceptors.response.use(function (response) {
-  console.log(response);
   const token = response.data.accesstoken;
-  
+  console.log(token);
   if (token) {
     window.localStorage.setItem('myToken', token)
   }

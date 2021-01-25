@@ -1,6 +1,3 @@
-import * as dotenv from 'dotenv'
-dotenv.config({path: __dirname+'../../.env'});
-
 import {NextFunction, Request, Response} from 'express'
 import { getRepository } from 'typeorm';
 import bcrypt from 'bcrypt'
@@ -26,20 +23,18 @@ export default{
                         let token = jwt.sign({id: data.id}, config.secret , {
                             expiresIn: 3600
                         });
-                        res.send({accesstoken: token});
-                        console.log(res);
-                        res.sendStatus(200);
+                        res.status(200).json({accesstoken: token});
                     }else{
                         next({messageError: 'Usuário ou senha não encontrados!'});
                     }
                 }
             }).catch(err => {
-                next({messageError: 'Erro na autenticação!', err});
+                console.log("error: ", err)
             });
     },
 
     async logout(req: Request, res: Response){
-        res.setHeader('acesstoken', '');
+        res.send({accesstoken: ''});
         res.status(200).send({auth: false, acesstoken: null})
     }
 

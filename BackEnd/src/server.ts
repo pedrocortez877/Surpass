@@ -1,8 +1,7 @@
 import express from 'express';
 import path from 'path'
 import 'express-async-errors'
-
-const bodyParser = require('body-parser')
+import bodyParser from 'body-parser';
 
 import './database/connection'
 
@@ -17,7 +16,6 @@ app.use(bodyParser.urlencoded({extended: true}))
 var cors = require('cors');
 app.use(cors());
 
-//app.use(express.json());
 app.use(routes);
 
 app.use('/uploads', express.static(path.join(__dirname,  '..' , 'uploads')));

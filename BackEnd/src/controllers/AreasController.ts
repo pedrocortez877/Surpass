@@ -36,6 +36,7 @@ export default{
     async create(req: Request, res: Response){
         const {
             name,
+            contact,
             latitude,
             longitude,
             about,
@@ -53,6 +54,7 @@ export default{
     
         const data = {
             name,
+            contact,
             latitude,
             longitude,
             about,
@@ -62,8 +64,11 @@ export default{
             images
         };
 
+        console.log(data);
+
         const schema = Yup.object().shape({
             name:  Yup.string().required(),
+            contact:  Yup.string().required(),
             latitude: Yup.number().required(),
             longitude: Yup.number().required(),
             about: Yup.string().required().max(300),
@@ -94,10 +99,11 @@ export default{
             .where("id = :id", { id: req.params.id })
             .execute()
             .then(() => {
-                return res.status(201);
+                return res.status(200).send("Removido com sucesso!");
             })
             .catch(error => {
                 console.log("Erro: ", error);
+                return res.status(500).send({erro: error});
             });
     },
 

@@ -12,7 +12,7 @@ import verifySignUp from './middleware/verifySignUp'
 const routes = Router();
 const upload = multer(uploadConfig);
 
-routes.post('/areas', upload.array('images'), authJwt.verifyToken,  AreasController.create);
+routes.post('/areas', upload.array('images'), authJwt.verifyToken, AreasController.create);
 routes.get('/areas', AreasController.index);
 routes.get('/areas/:id',AreasController.show);
 routes.delete('/areas/:id', authJwt.verifyToken, AreasController.remove);

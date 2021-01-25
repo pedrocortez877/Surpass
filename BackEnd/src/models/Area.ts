@@ -12,6 +12,9 @@ export default class Area{
     name: string;
 
     @Column()
+    contact: string;
+
+    @Column()
     latitude: number;
 
     @Column()

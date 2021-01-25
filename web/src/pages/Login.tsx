@@ -6,6 +6,7 @@ import api from "../services/api";
 
 export default function Login() {
   const history = useHistory();
+  const[warningForm, setWarningForm] = useState('');
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
 
@@ -21,7 +22,7 @@ export default function Login() {
     await api.post('login', data).then(() => {
       history.push('/app');
     }).catch(() => {
-      alert("Usuário ou senha não encontrados!");
+      setWarningForm("Usuário e/ou senha não encontrados");
     });
 
     
@@ -42,6 +43,10 @@ export default function Login() {
             <div className="input-block">
               <label htmlFor="password">Senha</label>
               <input id="password" type="password" value={password} onChange={event => setPassword(event.target.value)}/>
+            </div>
+
+            <div className="warning">
+              {warningForm}
             </div>
 
           </fieldset>
